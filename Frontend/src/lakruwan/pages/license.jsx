@@ -24,14 +24,17 @@ const licenseData = [
         description: "Unlimited translations with full access to all supported languages", 
         price: "$99/year", 
         validity: "1 Year", 
-        features: ["Unlimited translations", "Full language support", "Access to advanced AI models", "Instant processing"] 
+        features: ["Unlimited translations", "Full language support", "Instant processing"] 
     }
 ];
 
 export default function License() {
   return (
     <div className="container mx-auto p-5">
-        <h2 className="text-2xl font-bold text-center mb-6">Available Translation Plans</h2>
+        <h1 className="h1-style text-center">Upgrade to unleash everything</h1>
+        <p className="mb-4 text-center mx-56 text-md text-gray-500 pt-4 pb-6"> 
+            Select a translation plan that fits your needs. Whether you need basic daily translations or unlimited access with advanced AI support, our plans provide the right balance of features and affordability. Purchase your license today and start translating with ease
+        </p>
         <div className="flex justify-center gap-6 ">
             {licenseData.map((license) => (
                 <LicenseCard
