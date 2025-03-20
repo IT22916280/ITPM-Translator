@@ -5,8 +5,8 @@ const License = require("../models/LicenseModel");
 // Create a new license
 router.post("/license", async (req, res) => {
   try {
-    const { licenseName, title, description, price, isTrial } = req.body;
-    const newLicense = new License({ licenseName, title, description, price, isTrial });
+    const { licenseName, title, description, price, isEnabled } = req.body;
+    const newLicense = new License({ licenseName, title, description, price, isEnabled });
     await newLicense.save();
     res.status(201).json(newLicense);
   } catch (error) {
