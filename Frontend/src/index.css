@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+.h1-style {
+  font-size: 56px;
+  font-weight: 500;
+  letter-spacing: 0.8px;
+  color: var(--secondary-color);
+  padding: 0;
+  margin: 0;
+}
