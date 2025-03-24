@@ -30,9 +30,14 @@ const SinPoliRoutes = require('./routes/sinPolisymousWordsroute');
 
 const license = require('./routes/licenseRoute');
 
+const SinPoliRoutes = require('./routes/sinPolisymousWordsroute')
+const savedTranslationsRoutes = require('./routes/savedTranslations.routes');
+
 
 //API middleware
 app.use(EngPoliRoutes);
 app.use(SinPoliRoutes);
 
 app.use(license);
+
+app.use(savedTranslationsRoutes);
