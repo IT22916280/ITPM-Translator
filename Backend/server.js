@@ -27,6 +27,7 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 const EngPoliRoutes = require('./routes/engPolisymousWordsroute');
 const SinPoliRoutes = require('./routes/sinPolisymousWordsroute');
+const userRoutes = require('./routes/user.routes');
 
 const license = require('./routes/licenseRoute');
 
@@ -40,3 +41,5 @@ app.use(SinPoliRoutes);
 app.use(license);
 
 app.use(savedTranslationsRoutes);
+
+app.use(userRoutes);
