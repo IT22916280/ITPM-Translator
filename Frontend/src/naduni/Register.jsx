@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import BgImg from "../images/loginwallpaper.png";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 export default function Register() {
     const navigate = useNavigate();
@@ -120,6 +120,14 @@ export default function Register() {
                         Register
                     </button>
                 </form>
+                <div className="text-center mt-4">
+                    <Link 
+                        to="/login" 
+                        className="text-gray-600 hover:text-gray-800 transition-colors duration-300"
+                    >
+                        Already have an account? Login
+                    </Link>
+                </div>
             </div>
         </div>
     );
