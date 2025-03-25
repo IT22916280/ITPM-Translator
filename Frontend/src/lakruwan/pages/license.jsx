@@ -50,25 +50,30 @@ export default function License() {
   return (
     <div className="container mx-auto p-5">
         <h1 className="h1-style text-center">Upgrade to unleash everything</h1>
-        <p className="mb-4 text-center mx-56 text-md text-gray-500 pt-4 pb-6"> 
+        <p className="mb-4 text-center  text-md text-gray-500 pt-4 pb-6"> 
             Select a translation plan that fits your needs. Whether you need basic daily translations or unlimited access with advanced AI support, our plans provide the right balance of features and affordability. Purchase your license today and start translating with ease
         </p>
         <div className="flex justify-center gap-6 ">
-        {feedbacks && feedbacks.length > 0 ? (
-  feedbacks.map((license) => (
-    <LicenseCard
-      key={license.id}
-      title={license.licenseName || "No title"}
-      description={license.title || "No description"}
-      price={license.price || "N/A"}
-      validity={license.validity || "1 Year"}
-      features={Array.isArray(license.description) ? license.description : []}
-    />
-  ))
-) : (
-  <p className="text-center">No licenses available.</p>
-)}
-
+          {feedbacks && feedbacks.length > 0 ? (
+            feedbacks.map((license) => (
+              <LicenseCard
+                key={license.id}
+                title={license.licenseName || "No title"}
+                description={license.title || "No description"}
+                price={license.price || "N/A"}
+                validity={license.validity || "1 Year"}
+                features={
+                  Array.isArray(license.description)
+                    ? license.description
+                    : license.description
+                    ? license.description.split(", ")
+                    : []
+                }
+              />
+            ))
+          ) : (
+            <p className="text-center">No licenses available.</p>
+          )}
         </div>
     </div>
   )
