@@ -30,7 +30,6 @@ const SinPoliRoutes = require('./routes/sinPolisymousWordsroute');
 
 const license = require('./routes/licenseRoute');
 
-const SinPoliRoutes = require('./routes/sinPolisymousWordsroute')
 const savedTranslationsRoutes = require('./routes/savedTranslations.routes');
 
 

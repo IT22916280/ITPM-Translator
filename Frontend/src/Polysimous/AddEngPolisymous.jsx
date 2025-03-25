@@ -124,7 +124,7 @@ const handleReload = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-slate-800 to-green-600 flex flex-col items-center p-6">
+        <div className="min-h-screen flex flex-col items-center p-6">
             <div className="bg-white border-2 border-gray-300 rounded-lg shadow-lg p-8 max-w-4xl w-full">
                 <h2 className="text-3xl font-bold text-green-700 mb-6">Manage English Polisymous Words</h2>
                 <div className="flex justify-end mb-4">
