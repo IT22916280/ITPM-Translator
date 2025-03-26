@@ -9,11 +9,6 @@ const Dashboard = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            setError("You are not logged in.");
-            return;
-        }
         try {
             const decodedToken = jwtDecode(token);
             const userId = decodedToken.id;

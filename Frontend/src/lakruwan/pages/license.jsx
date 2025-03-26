@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import LicenseCard from '../component/licenseCard'
-
+import Header from "../component/header";
 
 
 // const licenseData = [
@@ -49,6 +49,7 @@ export default function License() {
   console.log("CHECK",feedbacks)
   return (
     <div className="container mx-auto p-5">
+      <Header></Header>
         <h1 className="h1-style text-center">Upgrade to unleash everything</h1>
         <p className="mb-4 text-center  text-md text-gray-500 pt-4 pb-6"> 
             Select a translation plan that fits your needs. Whether you need basic daily translations or unlimited access with advanced AI support, our plans provide the right balance of features and affordability. Purchase your license today and start translating with ease
