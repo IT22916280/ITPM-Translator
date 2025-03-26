@@ -8,6 +8,7 @@ import TranslationPg from "./TranslationPg";
 import Register from  "./naduni/Register";
 import Login from "./naduni/Login";
 import Dashboard from "./naduni/Dashoboard";
+import SavedTranslations from "./dhananji/component/SavedTranslations";
 
 import License from "./lakruwan/pages/license";
 import { ProtectedRoute } from "./lakruwan/ProtectedRoute";
@@ -45,6 +46,8 @@ function App() {
     </ProtectedRoute>
   }/> 
   
+  <Route path="/savedTranslations" element={<SavedTranslations/>}/>
+
   <Route path="/License" element={<License/>}/>
 
   <Route path='/' element={<Register />} />
