@@ -92,10 +92,10 @@ export default function TranslationPg() {
   
 
   return (
-    <div className="translator-page">
+    <div className="my-40 mx- 40 w-full">
       <div className="container">
-        <div className="wrapper">
-          <div className="text-input relative">
+        <div className="wrapper px-2">
+          <div className="text-input">
           {showAmbiPopup && (
   <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-white bg-opacity-50 z-50">
     <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
@@ -164,7 +164,7 @@ export default function TranslationPg() {
           <button onClick={handleTranslate} className="translate-button">Translate Text</button>
           <button onClick={directToLoginPage} className="favorite-button">
           ★ Save as Favorite
-        </button>
+          </button>
 
         <p className="text-right mt-1"><a className='text-slate-500 hover:underline' onClick={sendfeedback}>Send feedback</a></p>
         

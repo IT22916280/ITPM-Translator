@@ -26,11 +26,20 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 //routes
 
 const EngPoliRoutes = require('./routes/engPolisymousWordsroute');
-const SinPoliRoutes = require('./routes/sinPolisymousWordsroute')
+const SinPoliRoutes = require('./routes/sinPolisymousWordsroute');
+const userRoutes = require('./routes/user.routes');
+
+const license = require('./routes/licenseRoute');
+
 const savedTranslationsRoutes = require('./routes/savedTranslations.routes');
 
 
 //API middleware
 app.use(EngPoliRoutes);
 app.use(SinPoliRoutes);
+
+app.use(license);
+
 app.use(savedTranslationsRoutes);
+
+app.use(userRoutes);
