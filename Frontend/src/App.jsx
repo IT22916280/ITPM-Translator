@@ -10,6 +10,7 @@ import Login from "./naduni/Login";
 import Dashboard from "./naduni/Dashoboard";
 
 import License from "./lakruwan/pages/license";
+import { ProtectedRoute } from "./lakruwan/ProtectedRoute";
 
 
 
@@ -23,16 +24,36 @@ function App() {
 <Routes>
 
   {/* <Route path="/" element= {<DashBoard/>}/> */}
-  <Route path="/Translator/engp" element={<AddEngPolisymous/>}/>
-  <Route   path="/Translator/sinp" element= {<AddSinPolisymous/>} />
-  <Route path="/Translator/poly" element= {<AddPolysimous/>}/>
-  <Route path="/Translator/pg" element={<TranslationPg/>}/> 
+  <Route path="/Translator/engp" element={
+    <ProtectedRoute>
+      <AddEngPolisymous/>
+    </ProtectedRoute>
+  }/>
+  <Route   path="/Translator/sinp" element= {
+    <ProtectedRoute>
+      <AddSinPolisymous/>
+    </ProtectedRoute>
+  } />
+  <Route path="/Translator/poly" element= {
+    <ProtectedRoute>
+      <AddPolysimous/>
+    </ProtectedRoute>
+  }/>
+  <Route path="/Translator/pg" element={
+    <ProtectedRoute>
+      <TranslationPg/>
+    </ProtectedRoute>
+  }/> 
   
   <Route path="/License" element={<License/>}/>
 
   <Route path='/' element={<Register />} />
   <Route path='/login' element={<Login />} />
-  <Route path='/dashboard' element={<Dashboard />} />
+  <Route path='/dashboard' element={
+    <ProtectedRoute>
+      <Dashboard />
+    </ProtectedRoute>
+    } />
  
 </Routes>
 </>

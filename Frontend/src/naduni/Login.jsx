@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import BgImg from "../images/loginwallpaper.png";
+// import BgImg from "../images/loginwallpaper.png";
 import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
