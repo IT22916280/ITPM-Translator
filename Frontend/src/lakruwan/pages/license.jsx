@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import LicenseCard from '../component/licenseCard'
 import Header from "../component/header";
-
+import LicenseForm from "../component/licenseForm";
 
 // const licenseData = [
 //     { 
@@ -33,6 +33,7 @@ import Header from "../component/header";
 
 export default function License() {
   const [feedbacks, setFeedbacks] = useState([]);
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
   const fetchFeedbacks = async () => {
@@ -48,15 +49,34 @@ export default function License() {
 
   console.log("CHECK",feedbacks)
   return (
-    <div className="container mx-auto p-5">
+    <div className="container mx-auto p-5 pr-15">
       <Header></Header>
         <h1 className="h1-style text-center">Upgrade to unleash everything</h1>
         <p className="mb-4 text-center  text-md text-gray-500 pt-4 pb-6"> 
             Select a translation plan that fits your needs. Whether you need basic daily translations or unlimited access with advanced AI support, our plans provide the right balance of features and affordability. Purchase your license today and start translating with ease
         </p>
+        {/* Button to Show Form */}
+      <div className="flex justify-center mb-6">
+        <button 
+          className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition"
+          onClick={() => setShowForm(!showForm)}
+        >
+          {showForm ? "Close Form" : "Create License"}
+        </button>
+      </div>
+
+      {/* Conditionally Render the Form */}
+      {showForm && (
+        <div className="flex justify-center">
+          <LicenseForm />
+        </div>
+      )}
+
         <div className="flex justify-center gap-6 ">
           {feedbacks && feedbacks.length > 0 ? (
-            feedbacks.map((license) => (
+            feedbacks
+            .filter((license) => license.isEnabled === true)
+            .map((license) => (
               <LicenseCard
                 key={license.id}
                 title={license.licenseName || "No title"}
