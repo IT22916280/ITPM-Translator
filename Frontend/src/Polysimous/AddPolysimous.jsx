@@ -17,7 +17,7 @@ export default function AddPolysimous() {
         <label
           htmlFor="toggle-switch"
           className="flex items-center mb-4 cursor-pointer absolute"
-          style={{marginLeft: '11.15in', marginTop: '0.64in'}}
+          style={{marginLeft: '10.8in', marginTop: '0.64in'}}
         >
           <div className="relative">
             <input
@@ -33,7 +33,7 @@ export default function AddPolysimous() {
                 isEnglish ? "transform translate-x-0" : "transform translate-x-0"
               }`}
             >
-              <span className="ml-3 mt-10 font-bold text-green-600">
+              <span className="ml-3 mt-10 font-bold text-blue-600">
                 {isEnglish ? "English" : "Sinhala"}
                 <TbExchange className="absolute -mt-5 ml-20" />
               </span>

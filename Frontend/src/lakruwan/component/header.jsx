@@ -33,8 +33,8 @@ export default function Header() {
                     {isExpanded && (
                         <>
                             {/* dashboard */}
-                            <button onClick={() => navigate("/dashboard")} className="w-full rounded-md p-1 mt-1 cursor-pointer hover:bg-gray-200">
-                                License
+                            <button onClick={() => navigate("/Translator/pg")} className="w-full rounded-md p-1 mt-1 cursor-pointer hover:bg-gray-200">
+                                Translate
                             </button>
                             {/* history */}
                             <button onClick={() => navigate("/savedTranslations")} className="w-full rounded-md p-1 mt-1 cursor-pointer hover:bg-gray-200">
@@ -56,7 +56,7 @@ export default function Header() {
                         className="w-full rounded-md p-2 bg-blue-200 cursor-pointer hover:bg-blue-300"
                         onClick={(e) => {
                             e.stopPropagation();
-                            navigate("/");
+                            navigate("/login");
                         }}
                     >
                         Logout
