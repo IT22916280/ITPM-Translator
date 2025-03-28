@@ -46,9 +46,17 @@ function App() {
     </ProtectedRoute>
   }/> 
   
-  <Route path="/savedTranslations" element={<SavedTranslations/>}/>
+  <Route path="/savedTranslations" element={
+    <ProtectedRoute>
+      <SavedTranslations/>
+    </ProtectedRoute>
+  }/>
 
-  <Route path="/License" element={<License/>}/>
+  <Route path="/License" element={
+    <ProtectedRoute>
+      <License/>
+    </ProtectedRoute>
+  }/>
 
   <Route path='/' element={<Register />} />
   <Route path='/login' element={<Login />} />

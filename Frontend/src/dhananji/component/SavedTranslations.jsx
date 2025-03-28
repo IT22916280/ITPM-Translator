@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Header from "../../lakruwan/component/header";
 
 export default function SavedTranslations() {
     const [translations, setTranslations] = useState([]);
@@ -57,7 +58,8 @@ export default function SavedTranslations() {
     };
 
     return (
-        <div className="min-h-screen w-screen bg-gray-100 p-4">
+        <div className="min-h-screen w-screen bg-gray-100 p-4 pr-15">
+          <Header></Header>
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-bold text-center">Saved Translations</h2>
