@@ -13,6 +13,11 @@ import SavedTranslations from "./dhananji/component/SavedTranslations";
 import License from "./lakruwan/pages/license";
 import { ProtectedRoute } from "./lakruwan/ProtectedRoute";
 
+import AdminDAshBoard from "./Admin/AdminDAshBoard";
+import NavigationBar from "./Admin/NavigationBar";
+import AdminTable from "./Admin/AdminTable";
+import CreateAdmin from "./Admin/CreateAdmin";
+import UpdateAdmin from "./Admin/UpdateAdmin";
 
 
 function App() {
@@ -65,6 +70,14 @@ function App() {
       <Dashboard />
     </ProtectedRoute>
     } />
+
+
+<Route path='/admins' element={<AdminDAshBoard/>}/>
+ <Route path='/adminsnav' element={<NavigationBar/>}/>
+ <Route path='/admintable' element={<AdminTable/>}/>
+ <Route path='/createadmin' element={<CreateAdmin/>}/>
+ <Route path='/updateadmin' element={<UpdateAdmin/>}/>
+
  
 </Routes>
 </>
