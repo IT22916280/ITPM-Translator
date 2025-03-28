@@ -2,16 +2,18 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Header from "../../lakruwan/component/header";
+import { jwtDecode } from "jwt-decode";
 
 export default function SavedTranslations() {
     const [translations, setTranslations] = useState([]);
     const [docID, setDocID] = useState("");
     const navigate = useNavigate();
 
-    const userName = localStorage.getItem("userName");
+    const token = localStorage.getItem('token');
+    const decodedToken = jwtDecode(token);
+    console.log("User Name is : ", (decodedToken.userName));
 
-    console.log("User Name is : ", userName);
-
+    const userName = decodedToken
     useEffect(() => {
         const fetchTranslations = async () => {
             try {
@@ -54,25 +56,25 @@ export default function SavedTranslations() {
     };
 
     const handleGoBack = () => {
-        navigate(`/${userName}`); // Navigate back to TranslationPage
+        navigate(`/Translator/pg`); // Navigate back to TranslationPage
     };
 
     return (
-        <div className="min-h-screen w-screen bg-gray-100 p-4 pr-15">
+        <div className="min-h-screen w-screen p-4 pr-15">
           <Header></Header>
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-bold text-center">Saved Translations</h2>
               <button
                 onClick={handleGoBack}
-                className="bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 mr-1"
+                className="bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 mr-1 cursor-pointer"
               >
                 Go Back
               </button>
             </div>
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-amber-200">
+                <thead className="bg-blue-200">
                   <tr>
                     <th
                       scope="col"

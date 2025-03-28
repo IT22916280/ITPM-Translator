@@ -4,6 +4,7 @@ import Countries from "./Countries.jsx";
 import { fetchTranslation } from "./Script.jsx";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Header from "./lakruwan/component/header.jsx";
 
 export default function TranslationPg() {
   const [fromText, setFromText] = useState("");
@@ -73,7 +74,7 @@ export default function TranslationPg() {
   };
 
   const directToLoginPage = () => {
-    navigate('/'); // Navigate to login page
+    // navigate('/license'); // Navigate to login page
   };
 
   const navigateToSavedTranslations = () => {
@@ -92,34 +93,35 @@ export default function TranslationPg() {
   
 
   return (
-    <div className="my-40 mx- 40 w-full">
+    <div className="flex justify-center py-25 w-full">
+    <Header></Header>
       <div className="container">
         <div className="wrapper px-2">
           <div className="text-input">
-          {showAmbiPopup && (
-  <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-white bg-opacity-50 z-50">
-    <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
-      <h3 className="text-lg font-semibold text-gray-800 mb-4">Select a Meaning</h3>
-      <ul className="space-y-2">
-        {(sameEngWords.length > 0 ? sameEngWords : sameSinWords).map((meaning, index) => (
-          <li
-            key={index}
-            onClick={() => handleMeaningSelection(index)} // Select meaning
-            className="cursor-pointer p-3 border border-gray-300 rounded-lg hover:bg-gray-100 transition"
-          >
-            {meaning}
-          </li>
-        ))}
-      </ul>
-      <button
-        onClick={() => setShowAmbiPopup(false)}
-        className="mt-4 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition"
-      >
-        Close
-      </button>
-    </div>
-  </div>
-)}
+            {showAmbiPopup && (
+              <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-gray-100/50 z-50">
+                <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-4">Select a Meaning</h3>
+                  <ul className="space-y-2">
+                    {(sameEngWords.length > 0 ? sameEngWords : sameSinWords).map((meaning, index) => (
+                      <li
+                        key={index}
+                        onClick={() => handleMeaningSelection(index)} // Select meaning
+                        className="cursor-pointer p-3 border border-gray-300 rounded-lg hover:bg-gray-100 transition"
+                      >
+                        {meaning}
+                      </li>
+                    ))}
+                  </ul>
+                  <button
+                    onClick={() => setShowAmbiPopup(false)}
+                    className="mt-4 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            )}
             <textarea
               spellCheck="false"
               className="from-text"
@@ -162,12 +164,11 @@ export default function TranslationPg() {
             </li>
           </ul>
           <button onClick={handleTranslate} className="translate-button">Translate Text</button>
-          <button onClick={directToLoginPage} className="favorite-button">
+          <button onClick={directToLoginPage} className="favorite-button bg-cyan-400 hover:bg-cyan-500">
           ★ Save as Favorite
           </button>
 
-        <p className="text-right mt-1"><a className='text-slate-500 hover:underline' onClick={sendfeedback}>Send feedback</a></p>
-        
+        <p className='text-right mt-3 text-slate-600 font-medium cursor-pointer hover:text-blue-800' onClick={sendfeedback}>Send feedback</p>        
         </div>
       </div>
     </div>
