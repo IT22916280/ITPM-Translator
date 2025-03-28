@@ -1,101 +1,114 @@
+const mongoose = require("mongoose");
 const polisyEngmodel = require("../models/englishPolysemousWords");
 
-//insert words
-const insertEngPolisymous = async(req,res) => {
+// Insert words
+const insertEngPolisymous = async (req, res) => {
+    try {
+        if (!req.body || Object.keys(req.body).length === 0) {
+            return res.status(400).json({ message: "Invalid data provided" });
+        }
 
-     const newEngPoliWrd = new polisyEngmodel(req.body);
-    try{
+        const newEngPoliWrd = new polisyEngmodel(req.body);
         await newEngPoliWrd.save();
-        res.status(201).json({message:'English Polisymous word create successfully'})  
-    }catch (error){
+        res.status(201).json({ message: 'English Polysemous word created successfully' });
+    } catch (error) {
         console.error(error);
-        res.status(500).json({message:'English polisymous word creation Failed'})
+        res.status(500).json({ message: 'Failed to create English polysemous word' });
     }
-}
+};
 
-//get all words
-const getAllEngPoliWrds = async(req,res) => {
-    const EngPoliWrds = await polisyEngmodel.find();
+// Get all words
+const getAllEngPoliWrds = async (req, res) => {
+    try {
+        const EngPoliWrds = await polisyEngmodel.find();
 
-    try{
-        if(EngPoliWrds.length === 0){
-            res.status(404).json({message:"No English polisymous words found"})
+        if (EngPoliWrds.length === 0) {
+            return res.status(200).json({
+                message: "No English polysemous words found",
+                data: []
+            });
         }
         res.status(200).json({
-            message: 'English polisymous words fetched successfully',
+            message: 'English polysemous words fetched successfully',
             data: EngPoliWrds
-        })
-    }catch(error){
+        });
+    } catch (error) {
         console.error(error);
-        res.status(500).json({message:"English polisymoums words data fetching is failed"});       
+        res.status(500).json({ message: "Failed to fetch English polysemous words" });
+    }
+};
+
+// Fetch by ID
+const getEngPoliWrdById = async (req, res) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ message: "Invalid ID provided" });
     }
 
-}
-
-//fetched by Id
-const getEngPoliWrdById = async(req,res) => {
-    const {id} = req.params;
-
-    try{
+    try {
         const EngPoliWrd = await polisyEngmodel.findById(id);
 
-        if(!EngPoliWrd){
-            res.status(404).json({message: "Couldnt find the English Polisymous Word"})
+        if (!EngPoliWrd) {
+            return res.status(404).json({ message: "Couldn't find the English polysemous word" });
         }
-        res.status(200).json({message:`${id} 's English polisymous data fetched`,
-        date:EngPoliWrd
+        res.status(200).json({
+            message: `${id}'s English polysemous word data fetched`,
+            data: EngPoliWrd
         });
-
-    }catch(error){
+    } catch (error) {
         console.error(error);
-        res.status(500).json({message:"Eng polisymous word is not fetching successfully"});
+        res.status(500).json({ message: "Failed to fetch English polysemous word" });
     }
-}
+};
 
-//update by id
-const updateEngPoliWrdById = async(req,res) =>{
-    const {id} = req.params;
+// Update by ID
+const updateEngPoliWrdById = async (req, res) => {
+    const { id } = req.params;
 
-    try{
-        const updateEngPoliWrd = await polisyEngmodel.findByIdAndUpdate(id,req.body,{new:true});
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ message: "Invalid ID provided" });
+    }
 
-        if(!updateEngPoliWrd){
-            res.status(404).json({message:"Couldnt find the English polisymous word"})
+    try {
+        const updateEngPoliWrd = await polisyEngmodel.findByIdAndUpdate(id, req.body, { new: true });
+
+        if (!updateEngPoliWrd) {
+            return res.status(404).json({ message: "Couldn't find the English polysemous word" });
         }
         res.status(200).json({
-            message: `${id} 's English polisymous word Date Successfully Updated`,
-            data:updateEngPoliWrd
-        })
-
-        }        
-        catch(error){
-            console.error(error);
-            res.status(500).json({message:"English polisymous word's Date update is Failed"})
-            
+            message: `${id}'s English polysemous word data updated successfully`,
+            data: updateEngPoliWrd
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Failed to update English polysemous word" });
     }
-}
+};
 
-//Delete word by Id
-const deleteEngPoliWrdById = async(req,res) => {
-    const {id}= req.params;
+// Delete by ID
+const deleteEngPoliWrdById = async (req, res) => {
+    const { id } = req.params;
 
-    try{
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ message: "Invalid ID provided" });
+    }
+
+    try {
         const deleteEngPoliWrd = await polisyEngmodel.findByIdAndDelete(id);
-        
-        if(!deleteEngPoliWrd){
-            res.status(404).json({message:"Couldnt find the English polisymous word"})
+
+        if (!deleteEngPoliWrd) {
+            return res.status(404).json({ message: "Couldn't find the English polysemous word" });
         }
         res.status(200).json({
-            message:`${id} 's English polisymous word Data successfully deleted`,
+            message: `${id}'s English polysemous word data deleted successfully`,
             data: deleteEngPoliWrd
-        })
-
-    }
-    catch(error){
+        });
+    } catch (error) {
         console.error(error);
-        res.status(500).json({message:"English polisymous word' s deleting is failed"})
+        res.status(500).json({ message: "Failed to delete English polysemous word" });
     }
-}
+};
 
 module.exports = {
     insertEngPolisymous,
@@ -103,5 +116,4 @@ module.exports = {
     getEngPoliWrdById,
     updateEngPoliWrdById,
     deleteEngPoliWrdById
-}
-
+};

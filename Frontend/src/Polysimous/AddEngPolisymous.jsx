@@ -2,106 +2,140 @@ import React, { useState, useEffect } from "react";
 import { FaPlus } from "react-icons/fa";
 import axios from "axios";
 
-export default function AddEngPolisymous() {
+export default function AddEngPolysemous() {
     const [engWord, setEngWord] = useState("");
-    const [poliEngWMeanings, setpoliEngWMeanings] = useState([""]);
-    const [sinhalaWord, setsinhalaWord] = useState([""]);
+    const [poliEngWMeanings, setPoliEngWMeanings] = useState([""]);
+    const [sinhalaWord, setSinhalaWord] = useState([""]);
     const [entries, setEntries] = useState([]);
     const [editingIndex, setEditingIndex] = useState(null);
     const [isAdding, setIsAdding] = useState(false);
-
-
     const [reload, setReload] = useState(false);
 
-const handleReload = () => {
-    setReload(!reload); // Toggle state to trigger a re-render
-};
+    const handleReload = () => setReload(!reload);
 
+    // Validations
+    const validateEngWord = (word) => {
+        if (!word.trim()) return "English word cannot be empty.";
+        if (word.length > 50) return "English word cannot exceed 50 characters.";
+        if (!/^[a-zA-Z\s]+$/.test(word)) return "English word can only contain letters and spaces.";
+        return "";
+    };
 
-    // Fetch existing entries (READ)
+    const validatePolyMeanings = (meanings) => {
+        if (meanings.length === 0) return "At least one polysemous meaning is required.";
+        const duplicates = meanings.filter((item, index) => meanings.indexOf(item) !== index);
+        if (duplicates.length > 0) return "Polysemous meanings must be unique.";
+        for (let meaning of meanings) {
+            if (!meaning.trim()) return "Meanings cannot be empty.";
+        }
+        if (meanings.length > 10) return "You can only add up to 10 meanings.";
+        return "";
+    };
+
+    const validateSinhalaWords = (words) => {
+        const sinhalaRegex = /^[\u0D80-\u0DFF\s]+$/;
+        if (words.length === 0) return "At least one Sinhala word is required.";
+        const duplicates = words.filter((item, index) => words.indexOf(item) !== index);
+        if (duplicates.length > 0) return "Sinhala words must be unique.";
+        for (let word of words) {
+            if (!word.trim()) return "Sinhala words cannot be empty.";
+            if (!sinhalaRegex.test(word)) return "Sinhala words must contain valid Sinhala characters.";
+        }
+        if (words.length > 10) return "You can only add up to 10 Sinhala words.";
+        return "";
+    };
+
+    // Fetch existing entries
     useEffect(() => {
         const fetchEntries = async () => {
             try {
                 const response = await axios.get("http://localhost:5001/poliengwords");
-                const validatedEntries = response.data.data.map(entry => ({
+                const validatedEntries = response.data.data.map((entry) => ({
                     ...entry,
                     poliEngWMeanings: entry.poliEngWMeanings || [],
                     sinhalaWord: entry.sinhalaWord || []
                 }));
                 setEntries(validatedEntries);
-                console.log("The existing words:", validatedEntries);
             } catch (error) {
                 console.error("Error fetching English ambiguous words:", error);
             }
         };
-    
         fetchEntries();
-    }, [reload]); // Add reload here
-    
-
-    const handleSameEngWordChange = (index, event) => {
-        const newpoliEngWMeanings = [...poliEngWMeanings];
-        newpoliEngWMeanings[index] = event.target.value;
-        setpoliEngWMeanings(newpoliEngWMeanings);
-    };
-
-    const handleSinambiWordChange = (index, event) => {
-        const newsinhalaWord = [...sinhalaWord];
-        newsinhalaWord[index] = event.target.value;
-        setsinhalaWord(newsinhalaWord);
-    };
+    }, [reload]);
 
     const handleAddSameEngField = () => {
-        setpoliEngWMeanings([...poliEngWMeanings, ""]);
+        if (poliEngWMeanings.length < 10) {
+            setPoliEngWMeanings([...poliEngWMeanings, ""]);
+        } else {
+            alert("You can only add up to 10 meanings.");
+        }
     };
 
     const handleAddSinambiField = () => {
-        setsinhalaWord([...sinhalaWord, ""]);
+        if (sinhalaWord.length < 10) {
+            setSinhalaWord([...sinhalaWord, ""]);
+        } else {
+            alert("You can only add up to 10 Sinhala words.");
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
+        // Validate inputs
+        const engWordError = validateEngWord(engWord);
+        const polyMeaningsError = validatePolyMeanings(poliEngWMeanings);
+        const sinhalaWordsError = validateSinhalaWords(sinhalaWord);
+
+        if (engWordError || polyMeaningsError || sinhalaWordsError) {
+            alert(`${engWordError}\n${polyMeaningsError}\n${sinhalaWordsError}`);
+            return;
+        }
+
         const newWord = { engWord, poliEngWMeanings, sinhalaWord };
-    
+
         if (editingIndex === null) {
             try {
-                const response = await axios.post("http://localhost:5001/insertpoliengword", newWord);
+                await axios.post("http://localhost:5001/insertpoliengword", newWord);
                 alert("Added successfully!");
-                handleReload(); // Trigger a reload here
+                handleReload();
             } catch (error) {
                 console.error("Error adding English ambiguous word:", error);
                 alert("Failed to add.");
             }
         } else {
             try {
-                const response = await axios.put(
+                await axios.put(
                     `http://localhost:5001/updatepoliengword/${entries[editingIndex]._id}`,
                     newWord
                 );
                 alert("Updated successfully!");
-                handleReload(); // Trigger a reload here
+                handleReload();
             } catch (error) {
                 console.error("Error updating English ambiguous word:", error);
                 alert("Failed to update.");
             }
         }
-    
+
         // Clear form
         setEngWord("");
-        setpoliEngWMeanings([""]);
-        setsinhalaWord([""]);
+        setPoliEngWMeanings([""]);
+        setSinhalaWord([""]);
         setIsAdding(false);
     };
-    
 
     const handleEdit = (index) => {
         setEngWord(entries[index].engWord);
-        setpoliEngWMeanings(entries[index].poliEngWMeanings || []);
-        setsinhalaWord(entries[index].sinhalaWord || []);
+        setPoliEngWMeanings(entries[index].poliEngWMeanings || []);
+        setSinhalaWord(entries[index].sinhalaWord || []);
         setEditingIndex(index);
         setIsAdding(true);
-        handleReload(); // Trigger a re-render here
+    };
+
+    const confirmDeletion = (id, index) => {
+        if (window.confirm("Are you sure you want to delete this entry?")) {
+            handleDelete(id, index);
+        }
     };
 
     const handleDelete = async (id, index) => {
@@ -118,15 +152,15 @@ const handleReload = () => {
     const toggleAddForm = () => {
         setIsAdding(!isAdding);
         setEngWord("");
-        setpoliEngWMeanings([""]);
-        setsinhalaWord([""]);
+        setPoliEngWMeanings([""]);
+        setSinhalaWord([""]);
         setEditingIndex(null);
     };
 
     return (
         <div className="min-h-screen flex flex-col items-center p-6">
             <div className="bg-white border-2 border-gray-300 rounded-lg shadow-lg p-8 max-w-4xl w-full">
-                <h2 className="text-3xl font-bold text-green-700 mb-6">Manage English Polisymous Words</h2>
+                <h2 className="text-3xl font-bold text-green-700 mb-6">Manage English Polysemous Words</h2>
                 <div className="flex justify-end mb-4">
                     <button
                         onClick={toggleAddForm}
@@ -140,7 +174,7 @@ const handleReload = () => {
                     <thead>
                         <tr className="bg-green-500 text-white">
                             <th className="p-2 border">English Word</th>
-                            <th className="p-2 border">Polisymous English Meaning</th>
+                            <th className="p-2 border">Polysemous English Meanings</th>
                             <th className="p-2 border">Sinhala Word</th>
                             <th className="p-2 border">Actions</th>
                         </tr>
@@ -165,7 +199,7 @@ const handleReload = () => {
                                         </button>
                                         <button
                                             className="bg-rose-500 text-white px-5 py-1 rounded-lg hover:bg-rose-600"
-                                            onClick={() => handleDelete(entry._id, index)}
+                                            onClick={() => confirmDeletion(entry._id, index)}
                                         >
                                             Delete
                                         </button>
@@ -187,22 +221,26 @@ const handleReload = () => {
                                 type="text"
                                 value={engWord}
                                 onChange={(e) => setEngWord(e.target.value)}
-                                required
                                 className="w-full p-3 border border-green-500 rounded-lg"
                                 placeholder="Enter English word"
+                                required
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">Polisymous English Meanings</label>
+                            <label className="block text-sm font-semibold text-gray-700 mb-2">Polysemous English Meanings</label>
                             {poliEngWMeanings.map((word, index) => (
                                 <div key={index} className="flex items-center mb-3">
                                     <input
                                         type="text"
                                         value={word}
-                                        onChange={(e) => handleSameEngWordChange(index, e)}
-                                        required
+                                        onChange={(e) => {
+                                            const newMeanings = [...poliEngWMeanings];
+                                            newMeanings[index] = e.target.value;
+                                            setPoliEngWMeanings(newMeanings);
+                                        }}
                                         className="w-full p-3 border border-green-500 rounded-lg"
-                                        placeholder={`Enter same English word ${index + 1}`}
+                                        placeholder={`Enter meaning ${index + 1}`}
+                                        required
                                     />
                                 </div>
                             ))}
@@ -211,7 +249,7 @@ const handleReload = () => {
                                 onClick={handleAddSameEngField}
                                 className="flex items-center text-green-500 font-semibold"
                             >
-                                <FaPlus className="mr-2" /> Add Another Word
+                                <FaPlus className="mr-2" /> Add Another Meaning
                             </button>
                         </div>
                         <div>
@@ -221,10 +259,14 @@ const handleReload = () => {
                                     <input
                                         type="text"
                                         value={word}
-                                        onChange={(e) => handleSinambiWordChange(index, e)}
-                                        required
+                                        onChange={(e) => {
+                                            const newWords = [...sinhalaWord];
+                                            newWords[index] = e.target.value;
+                                            setSinhalaWord(newWords);
+                                        }}
                                         className="w-full p-3 border border-green-500 rounded-lg"
-                                        placeholder={`Enter Sinhala ambiguous word ${index + 1}`}
+                                        placeholder={`Enter Sinhala word ${index + 1}`}
+                                        required
                                     />
                                 </div>
                             ))}
@@ -237,15 +279,14 @@ const handleReload = () => {
                             </button>
                         </div>
                         <button
- 
-                type="submit"
-                className="w-full bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-all"
-              >
-                {editingIndex === null ? "Add Entry" : "Update Entry"}
-              </button>
-            </form>
-          )}
+                            type="submit"
+                            className="w-full bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-all"
+                        >
+                            {editingIndex === null ? "Add Entry" : "Update Entry"}
+                        </button>
+                    </form>
+                )}
+            </div>
         </div>
-      </div>
     );
 }
