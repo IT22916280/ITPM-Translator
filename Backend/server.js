@@ -33,6 +33,7 @@ const license = require('./routes/licenseRoute');
 
 const savedTranslationsRoutes = require('./routes/savedTranslations.routes');
 
+const adminRoutes = require('./routes/adminRoutes');
 
 //API middleware
 app.use(EngPoliRoutes);
@@ -43,3 +44,4 @@ app.use(license);
 app.use(savedTranslationsRoutes);
 
 app.use(userRoutes);
+app.use(adminRoutes);
