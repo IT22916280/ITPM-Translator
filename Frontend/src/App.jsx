@@ -19,6 +19,8 @@ import AdminTable from "./Admin/AdminTable";
 import CreateAdmin from "./Admin/CreateAdmin";
 import UpdateAdmin from "./Admin/UpdateAdmin";
 
+import LicenseAdmin from "./lakruwan/pages/licenseAdmin";
+
 
 function App() {
   
@@ -63,6 +65,12 @@ function App() {
     </ProtectedRoute>
   }/>
 
+  <Route path="/admins/LicenseAdmin" element={
+    <ProtectedRoute>
+      <LicenseAdmin/>
+    </ProtectedRoute>
+  }/>
+
   <Route path='/' element={<Register />} />
   <Route path='/login' element={<Login />} />
   <Route path='/dashboard' element={
@@ -76,7 +84,7 @@ function App() {
  <Route path='/adminsnav' element={<NavigationBar/>}/>
  <Route path='/admintable' element={<AdminTable/>}/>
  <Route path='/createadmin' element={<CreateAdmin/>}/>
- <Route path='/updateadmin' element={<UpdateAdmin/>}/>
+ <Route path='/updateadmin/:id' element={<UpdateAdmin/>}/>
 
  
 </Routes>
