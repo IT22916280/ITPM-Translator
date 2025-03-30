@@ -37,8 +37,12 @@ export default function Header() {
                                 Translate
                             </button>
                             {/* history */}
-                            <button onClick={() => navigate("/savedTranslations")} className="w-full rounded-md p-1 mt-1 cursor-pointer hover:bg-gray-200">
+                            <button onClick={() => navigate("/history")} className="w-full rounded-md p-1 mt-1 cursor-pointer hover:bg-gray-200">
                                 History
+                            </button>
+                            {/* Saved translation */}
+                            <button onClick={() => navigate("/savedTranslations")} className="w-full rounded-md p-1 mt-1 cursor-pointer hover:bg-gray-200">
+                                Saved Translations
                             </button>
                             {/* license */}
                             <button onClick={() => navigate("/license")} className="w-full rounded-md p-1 mt-1 cursor-pointer hover:bg-gray-200">
