@@ -5,6 +5,7 @@ import { fetchTranslation } from "./Script.jsx";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Header from "./lakruwan/component/header.jsx";
+import { jwtDecode } from "jwt-decode";
 
 export default function TranslationPg() {
   const [fromText, setFromText] = useState("");
@@ -73,9 +74,37 @@ export default function TranslationPg() {
     setToLang(fromLang);
   };
 
-  const directToLoginPage = () => {
-    // navigate('/license'); // Navigate to login page
-  };
+  const addTranslation = async () => {
+    if (!fromText.trim() || !toText.trim()) {
+        alert("Both input and translated text are required to save the translation.");
+        return;
+    }
+
+    const token = localStorage.getItem("token");
+    const decodedToken = jwtDecode(token);
+    const username = decodedToken.userName;
+
+    try {
+        const response = await axios.post("http://localhost:5001/inputTranslation", {
+            username: username,
+            savedtranslation: [
+                {
+                    english: fromLang === "en-GB" ? fromText : toText,
+                    sinhala: fromLang === "si-LK" ? fromText : toText,
+                },
+            ],
+        });
+
+        if (response.status === 200) {
+            alert("Translation saved successfully!");
+        } else {
+            alert("Failed to save the translation.");
+        }
+    } catch (error) {
+        console.error("Error saving translation:", error);
+        alert("An error occurred while saving the translation.");
+    }
+};
 
   const navigateToSavedTranslations = () => {
     navigate('/'); // Navigate to saved translations page
@@ -164,7 +193,7 @@ export default function TranslationPg() {
             </li>
           </ul>
           <button onClick={handleTranslate} className="translate-button">Translate Text</button>
-          <button onClick={directToLoginPage} className="favorite-button bg-cyan-400 hover:bg-cyan-500">
+          <button onClick={addTranslation} className="favorite-button bg-cyan-400 hover:bg-cyan-500">
           ★ Save as Favorite
           </button>
 

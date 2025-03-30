@@ -144,14 +144,14 @@ export default function SavedTranslations() {
                         <div className="flex justify-end space-x-2">
                           <button
                             onClick={() => handleEdit(index)} // Correct ID should be here
-                            className="bg-green-700 text-white py-1 px-3 rounded-md hover:bg-green-800"
+                            className="bg-blue-400 text-white py-1 px-3 rounded-md hover:bg-blue-500"
                             aria-label="Edit Translation"
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => handleDelete(index)}
-                            className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600"
+                            className="bg-gray-400 text-white py-1 px-3 rounded-md hover:bg-gray-600"
                             aria-label="Remove Translation"
                           >
                             Remove
