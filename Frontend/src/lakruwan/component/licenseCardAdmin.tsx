@@ -9,7 +9,7 @@ interface licenseCardProps {
     features: string[];
 }
 
-export default function licenseCard({title, description, price, validity, features }:licenseCardProps) {
+export default function licenseCardAdmin({title, description, price, validity, features }:licenseCardProps) {
     const navigate = useNavigate();
     return(
         <div className="border border-gray-300 bg-white p-6 text-center rounded-lg w-86 min-h-100 shadow-md">

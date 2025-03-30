@@ -26,6 +26,8 @@ const LicenseForm = () => {
           alert("Please fill in all required fields.");
           return;
         }
+
+        const payload = { ...formData, isEnabled: formData.isEnabled || false };
     
         try {
             const response = await axios.post("http://localhost:5001/license/post", formData, {
@@ -38,9 +40,9 @@ const LicenseForm = () => {
       };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-4 text-center">Create License</h2>
+    <div className="flex justify-center items-center w-full">
+      <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-lg w-full mx-6 p-4 border border-blue-300">
+        <h2 className="text-2xl font-bold mb-4 text-center">Add Neweate License</h2>
 
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">License Name</label>
@@ -55,22 +57,11 @@ const LicenseForm = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Title</label>
+          <label className="block text-sm font-medium text-gray-700">Description</label>
           <input
             type="text"
             name="title"
             value={formData.title}
-            onChange={handleChange}
-            className="mt-1 p-2 w-full border rounded"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Description</label>
-          <textarea
-            name="description"
-            value={formData.description}
             onChange={handleChange}
             className="mt-1 p-2 w-full border rounded"
             required
@@ -83,6 +74,17 @@ const LicenseForm = () => {
             type="number"
             name="price"
             value={formData.price}
+            onChange={handleChange}
+            className="mt-1 p-2 w-full border rounded"
+            required
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">Additional Content</label>
+          <textarea
+            name="description"
+            value={formData.description}
             onChange={handleChange}
             className="mt-1 p-2 w-full border rounded"
             required
