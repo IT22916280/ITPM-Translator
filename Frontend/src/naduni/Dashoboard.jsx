@@ -35,30 +35,30 @@ const Dashboard = () => {
         navigate('/Translator/pg'); // Use navigate to redirect
     };
 
-    if (error) {
-        return (
-            <div className="flex items-center justify-center min-h-screen bg-gray-100">
-                <p className="text-red-500 text-lg font-semibold">{error}</p>
-            </div>
-        );
-    }
+    // if (error) {
+    //     return (
+    //         <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    //             <p className="text-red-500 text-lg font-semibold">{error}</p>
+    //         </div>
+    //     );
+    // }
 
-    if (!user) {
-        return (
-            <div className="flex items-center justify-center min-h-screen bg-gray-100">
-                <p className="text-gray-500 text-lg font-semibold">Loading...</p>
-            </div>
-        );
-    }
+    // if (!user) {
+    //     return (
+    //         <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    //             <p className="text-gray-500 text-lg font-semibold">Loading...</p>
+    //         </div>
+    //     );
+    // }
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-950 to-purple-900">
             <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
                 <h1 className="text-3xl font-bold text-gray-800 mb-4 text-center">Welcome, {user.userName}</h1>
                 <div className="flex justify-center mb-4">
-                    {user.profilePicture && (
+                    {/* {user.profilePicture && (
                         <img src={user.profilePicture} alt="Profile" className="h-24 w-24 rounded-full border-4 border-blue-500" />
-                    )}
+                    )} */}
                 </div>
                 <p className="text-gray-700 text-lg text-center mb-6">Email: {user.email}</p>
                 <button

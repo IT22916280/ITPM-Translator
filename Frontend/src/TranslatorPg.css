@@ -155,12 +155,11 @@ li,
     margin-top: 20px;
     font-size: 17px;
     border-radius: 5px;
-    background: #eab308;
 }
 
-.favorite-button:hover{
+/* .favorite-button:hover{
     background: #e6a61e;
-}
+} */
 
 @media (max-width: 660px) {
     .container {
