@@ -13,9 +13,9 @@ export default function SavedTranslations() {
     english: "",
     sinhala: "",
   });
-  // Search functionality - commented out for separate implementation
-  // const [searchTerm, setSearchTerm] = useState("");
-  const searchTerm = ""; // Default empty search term while feature is disabled
+  // Search functionality - uncommented
+  const [searchTerm, setSearchTerm] = useState("");
+  // const searchTerm = ""; // Default empty search term while feature is disabled - removed this line
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [reportType, setReportType] = useState("all");
   const [reportFormat, setReportFormat] = useState("pdf");
@@ -111,13 +111,13 @@ export default function SavedTranslations() {
     navigate(`/Translator/pg`);
   };
 
-  // Search filtering - commented out for separate implementation
-  // const filteredTranslations = translations.filter(
-  //   (t) =>
-  //     t.english.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     t.sinhala.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
-  const filteredTranslations = translations; // Show all translations while search is disabled
+  // Search filtering - uncommented
+  const filteredTranslations = translations.filter(
+    (t) =>
+      t.english.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      t.sinhala.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  // const filteredTranslations = translations; // Show all translations while search is disabled - removed this line
 
   // Report generation functions
   const openReportModal = () => {
@@ -397,7 +397,7 @@ export default function SavedTranslations() {
           </div>
         </div>
 
-        {/* 🔍 Search Input - Commented out for separate implementation
+        {/* 🔍 Search Input - Uncommented */}
         <div className="mb-4">
           <input
             type="text"
@@ -407,7 +407,7 @@ export default function SavedTranslations() {
             className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
-        */}
+       
 
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
@@ -544,7 +544,7 @@ export default function SavedTranslations() {
                   />
                   <span className="ml-2">All translations ({translations.length})</span>
                 </label>
-                {/* Filtered option - commented out for separate search implementation
+                {/* Filtered option - uncommented */}
                 <label className="inline-flex items-center">
                   <input
                     type="radio"
@@ -560,7 +560,7 @@ export default function SavedTranslations() {
                     {!searchTerm && " (requires search filter)"}
                   </span>
                 </label>
-                */}
+                
               </div>
             </div>
             
