@@ -37,7 +37,7 @@ export default function Login() {
             localStorage.setItem('token', token);
 
             alert("Login Successful!");
-            navigate('/dashboard');
+            navigate('/translator/pg');
         } catch (error) {
             console.log(error);
             setError(error.response?.data?.message || "Login Unsuccessful!");
@@ -48,7 +48,7 @@ export default function Login() {
 
     return (
         <>
-            <div className="bg-cover bg-center min-h-screen flex items-center justify-center" style={{backgroundImage: `url(${BgImg})`}}>
+            <div className="bg-cover bg-center min-h-screen flex items-center justify-center" style={{backgroundImage: ``}}>
                 <div className="bg-white w-full max-w-md rounded-lg shadow-lg p-8">
                     <form onSubmit={loginUser} className="space-y-6">
                         <div>

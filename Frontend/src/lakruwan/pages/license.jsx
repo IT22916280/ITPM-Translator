@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import LicenseCard from '../component/licenseCard'
 import Header from "../component/header";
-import LicenseForm from "../component/licenseForm";
 
 // const licenseData = [
 //     { 
@@ -33,13 +32,16 @@ import LicenseForm from "../component/licenseForm";
 
 export default function License() {
   const [feedbacks, setFeedbacks] = useState([]);
-  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
   const fetchFeedbacks = async () => {
     try {
       const response = await axios.get("http://localhost:5001/license/get");
-      setFeedbacks(response.data);
+      if (response.data && Array.isArray(response.data)) {
+        setFeedbacks(response.data);
+      } else {
+        setError("Invalid data format received.");
+      }
     } catch (err) {
       console.error("Error fetching feedbacks:", err);
     }
@@ -55,22 +57,6 @@ export default function License() {
         <p className="mb-4 text-center  text-md text-gray-500 pt-4 pb-6"> 
             Select a translation plan that fits your needs. Whether you need basic daily translations or unlimited access with advanced AI support, our plans provide the right balance of features and affordability. Purchase your license today and start translating with ease
         </p>
-        {/* Button to Show Form */}
-      <div className="flex justify-center mb-6">
-        <button 
-          className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition"
-          onClick={() => setShowForm(!showForm)}
-        >
-          {showForm ? "Close Form" : "Create License"}
-        </button>
-      </div>
-
-      {/* Conditionally Render the Form */}
-      {showForm && (
-        <div className="flex justify-center">
-          <LicenseForm />
-        </div>
-      )}
 
         <div className="flex justify-center gap-6 ">
           {feedbacks && feedbacks.length > 0 ? (
