@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-// import BgImg from "../images/loginwallpaper.png";
+import BgImg from "../images/loginwallpaper.png";
 import { useNavigate, Link } from 'react-router-dom';
 
 export default function Register() {
@@ -63,7 +63,7 @@ export default function Register() {
     };
 
     return (
-        <div className="bg-cover bg-center min-h-screen flex items-center justify-center" style={{ backgroundImage: `` }}>
+        <div className="bg-cover bg-center min-h-screen flex items-center justify-center" style={{ backgroundImage: `url(${BgImg})` }}>
             <div className="bg-white w-full max-w-md rounded-lg shadow-lg p-8">
                 <form onSubmit={registerUser} className="space-y-6">
                     <div>
