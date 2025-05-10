@@ -76,9 +76,58 @@ const findById = async (req, res) => {
     }
 }
 
+const getAllUsers = async (req, res) => {
+    try {
+        const users = await userModel.find();
+        res.send({ message: "Users retrieved successfully!", users });
+    } catch (err) {
+        console.error("Error retrieving users:", err.message);
+        res.status(500).send({ message: "An error occurred while retrieving users." });
+    }
+};
+
+const updateUser = async (req, res) => {
+    const { id } = req.params;
+    const { profilePicture, userName, email } = req.body;
+
+    try {
+        const user = await userModel.findByIdAndUpdate(
+            id,
+            { profilePicture, userName, email },
+            { new: true, runValidators: true }
+        );
+        if (!user) {
+            return res.status(404).send({ message: "User not found!" });
+        }
+        res.send({ message: "User updated successfully!", user });
+    } catch (err) {
+        console.error("Error updating user:", err.message);
+        res.status(500).send({ message: "An error occurred while updating the user." });
+    }
+};
+
+const deleteUser = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const user = await userModel.findByIdAndDelete(id);
+        if (!user) {
+            return res.status(404).send({ message: "User not found!" });
+        }
+        res.send({ message: "User deleted successfully!" });
+    } catch (err) {
+        console.error("Error deleting user:", err.message);
+        res.status(500).send({ message: "An error occurred while deleting the user." });
+    }
+};
+
+
 module.exports = {
     registerUser,
     loginUser,
     userDashboard,
-    findById
-}
+    findById,
+    getAllUsers,
+    updateUser,
+    deleteUser
+};
