@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { FaPlus } from "react-icons/fa";
 import axios from "axios";
+import { jsPDF } from "jspdf";
+import "@fontsource/noto-sans-sinhala";
 
 export default function AddEngPolysemous() {
     const [engWord, setEngWord] = useState("");
@@ -10,8 +12,39 @@ export default function AddEngPolysemous() {
     const [editingIndex, setEditingIndex] = useState(null);
     const [isAdding, setIsAdding] = useState(false);
     const [reload, setReload] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
 
     const handleReload = () => setReload(!reload);
+
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
+    const filteredEntries = entries.filter((entry) =>
+        entry.engWord.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const generatePDF = () => {
+        const doc = new jsPDF();
+
+        // Add Sinhala font
+        doc.addFont("NotoSansSinhala-Regular.ttf", "NotoSansSinhala", "normal");
+        doc.setFont("NotoSansSinhala");
+
+        doc.text("English Polysemous Words Report", 10, 10);
+
+        let y = 20;
+        filteredEntries.forEach((entry, index) => {
+            doc.text(`${index + 1}. English Word: ${entry.engWord}`, 10, y);
+            y += 10;
+            doc.text(`   Meanings: ${entry.poliEngWMeanings.join(", ")}`, 10, y);
+            y += 10;
+            doc.text(`   Sinhala Words: ${entry.sinhalaWord.join(", ")}`, 10, y);
+            y += 10;
+        });
+
+        doc.save("English_Polysemous_Words_Report.pdf");
+    };
 
     // Validations
     const validateEngWord = (word) => {
@@ -161,6 +194,21 @@ export default function AddEngPolysemous() {
         <div className="min-h-screen flex flex-col items-center p-6">
             <div className="border-2 border-gray-300 rounded-lg shadow-lg p-8 max-w-4xl w-full">
                 <h2 className="text-3xl font-medium text-gray-700 mb-6">Manage English Polysemous Words</h2>
+                <div className="flex justify-between mb-4">
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={handleSearch}
+                        placeholder="Search by English Word"
+                        className="p-2 border border-gray-300 rounded-lg"
+                    />
+                    <button
+                        onClick={generatePDF}
+                        className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700"
+                    >
+                        Generate PDF
+                    </button>
+                </div>
                 <div className="flex justify-end mb-4">
                     <button
                         onClick={toggleAddForm}
@@ -180,8 +228,8 @@ export default function AddEngPolysemous() {
                         </tr>
                     </thead>
                     <tbody>
-                        {entries.length > 0 ? (
-                            entries.map((entry, index) => (
+                        {filteredEntries.length > 0 ? (
+                            filteredEntries.map((entry, index) => (
                                 <tr key={index} className="border-b border-blue-400">
                                     <td className="p-2 border border-blue-400">{entry.engWord}</td>
                                     <td className="p-2 border border-blue-400">
