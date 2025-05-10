@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { FaPlus } from "react-icons/fa";
 import axios from "axios";
+import { jsPDF } from "jspdf";
+import "@fontsource/noto-sans-sinhala";
 
 export default function AddSinPolysemous() {
     const [sinWord, setSinWord] = useState("");
@@ -10,8 +12,39 @@ export default function AddSinPolysemous() {
     const [editingIndex, setEditingIndex] = useState(null);
     const [isAdding, setIsAdding] = useState(false);
     const [reload, setReload] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
 
     const handleReload = () => setReload(!reload);
+
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
+    const filteredEntries = entries.filter((entry) =>
+        entry.sinWord.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const generatePDF = () => {
+        const doc = new jsPDF();
+
+        // Add Sinhala font
+        doc.addFont("NotoSansSinhala-Regular.ttf", "NotoSansSinhala", "normal");
+        doc.setFont("NotoSansSinhala");
+
+        doc.text("Sinhala Polysemous Words Report", 10, 10);
+
+        let y = 20;
+        filteredEntries.forEach((entry, index) => {
+            doc.text(`${index + 1}. Sinhala Word: ${entry.sinWord}`, 10, y);
+            y += 10;
+            doc.text(`   Meanings: ${entry.PoliSinWMeanings.join(", ")}`, 10, y);
+            y += 10;
+            doc.text(`   English Words: ${entry.engWord.join(", ")}`, 10, y);
+            y += 10;
+        });
+
+        doc.save("Sinhala_Polysemous_Words_Report.pdf");
+    };
 
     // Validation Functions
     const validateSinhalaWord = (word) => {
@@ -160,13 +193,19 @@ export default function AddSinPolysemous() {
         <div className="min-h-screen flex flex-col items-center p-6">
             <div className="bg-white border-2 border-gray-300 rounded-lg shadow-lg p-8 max-w-4xl w-full">
                 <h2 className="text-3xl font-medium text-gray-700 mb-6">Manage Sinhala Polysemous Words</h2>
-                <div className="flex justify-end mb-4">
+                <div className="flex justify-between mb-4">
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={handleSearch}
+                        placeholder="Search by Sinhala Word"
+                        className="p-2 border border-gray-300 rounded-lg"
+                    />
                     <button
-                        onClick={toggleAddForm}
-                        className="flex items-center bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+                        onClick={generatePDF}
+                        className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700"
                     >
-                        <FaPlus className="mr-2" />
-                        {isAdding ? "Cancel" : "Add"}
+                        Generate PDF
                     </button>
                 </div>
                 <table className="w-full border">
@@ -179,8 +218,8 @@ export default function AddSinPolysemous() {
                         </tr>
                     </thead>
                     <tbody>
-                        {entries.length > 0 ? (
-                            entries.map((entry, index) => (
+                        {filteredEntries.length > 0 ? (
+                            filteredEntries.map((entry, index) => (
                                 <tr key={index} className="border-b border-blue-400">
                                     <td className="p-2 border border-blue-400">{entry.sinWord}</td>
                                     <td className="p-2 border border-blue-400">{entry.PoliSinWMeanings.join(", ") || "No meanings available"}</td>
